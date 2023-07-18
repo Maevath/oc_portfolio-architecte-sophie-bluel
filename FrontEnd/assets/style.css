@@ -125,6 +125,34 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+/* Styles des filtres */
+.categories {
+	display: flex;
+	justify-content: center;
+	gap: 0.5rem;
+	margin-bottom: 2rem;
+}
+
+.categorie-btn {
+	padding: 8px 12px;
+	margin: 4px;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 1rem;
+	color: #1D6154;
+	background-color: #fff;
+	border: 1px solid #1D6154;
+	border-radius: 3rem;
+	cursor: pointer;
+}
+
+.categorie-btn.active {
+	background-color: #1D6154;
+	color: #ffffff;
+  }
+/**********************/
+
 .gallery {
 	width: 100%;
 	display: grid;

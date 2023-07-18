@@ -30,3 +30,31 @@ function createWorks(works){
         figureContainer.appendChild(titleElement)
     });
 }
+
+// Requête à l'API categories
+fetch('http://localhost:5678/api/categories')
+.then(response => response.json())
+.then(categories => { 
+
+    // Ajoute de bouton supplémentaire à la liste des catégories
+    const allBtn = { name: 'Tous' };
+    categories.unshift(allBtn);
+
+    createCategories(categories)
+})
+
+function createCategories(categories){
+    categories.forEach(categorie=>{
+        // Création des <button>
+        const btnCategories=document.createElement('button')
+
+        // Définition des noms des categories
+        btnCategories.innerHTML=categorie.name
+
+        // Application du style css
+        btnCategories.classList.add('categorie-btn');
+        
+        // <button>(btnCategories) enfant de <div class="categories>"(categoriesContainer)
+        categoriesContainer.appendChild(btnCategories);
+    })
+}
