@@ -2,6 +2,7 @@
 const galleryContainer=document.querySelector('#portfolio .gallery')
 const categoriesContainer=document.querySelector('#portfolio .categories')
 
+
 // Requête à l'API works
 fetch('http://localhost:5678/api/works')
 .then(response => response.json())
@@ -35,26 +36,40 @@ function createWorks(works){
 fetch('http://localhost:5678/api/categories')
 .then(response => response.json())
 .then(categories => { 
+    
+    // Ajout de la catégorie "Tous" au début de la liste des catégories
+    categories.unshift({ id: 0, name: "Tous" });
 
-    // Ajoute de bouton supplémentaire à la liste des catégories
-    const allBtn = { name: 'Tous' };
-    categories.unshift(allBtn);
-
-    createCategories(categories)
-})
+    createCategories(categories);
+  });
 
 function createCategories(categories){
+    console.log(categories)
+
     categories.forEach(categorie=>{
         // Création des <button>
         const btnCategories=document.createElement('button')
+       
 
         // Définition des noms des categories
         btnCategories.innerHTML=categorie.name
 
         // Application du style css
         btnCategories.classList.add('categorie-btn');
-        
+
+
         // <button>(btnCategories) enfant de <div class="categories>"(categoriesContainer)
         categoriesContainer.appendChild(btnCategories);
+
+        // Ajout de l'événement click pour filtrer les images
+        btnCategories.addEventListener('click', () => {
+            const categoryId = categorie.id;
+            filterImagesByCategory(categoryId);
+        });
+    });
+
+    bouton.addEventListener('click', function() {
+        const categorie = categorie.id;
     })
 }
+
