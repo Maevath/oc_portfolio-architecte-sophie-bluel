@@ -13,7 +13,7 @@
 	
 	<link rel="stylesheet" href="./assets/style.css">
 
-	<script src="#" defer></script>
+	<script src="./assets/js/login.js" defer></script>
 </head>
 
 <body>
@@ -32,16 +32,15 @@
 <main>
 	<section id="login">
         
-	    <h2>Log in</h2>
-        <form action="#" method="post">
-            <label for="email">E-mail</label>
-            <input type="text" name="email" id="email">
-            <label for="password">Mot de passe</label>
-            <input type="password" name="password" id="password">
-       
-            <input type="submit" value="Se connecter">
-            <a href="#">Mot de passe oublié ?</a>
-        </form>
+	    <h2>Login</h2>
+		<form action="#" method="post">
+			<label for="email">E-mail</label>
+			<input type="email" name="email" id="email" autocomplete="email">
+			<label for="password">Mot de passe</label>
+			<input type="password" name="password" id="password">
+			<input type="submit" value="Se connecter" class="btn-connect">
+			<a href="#">Mot de passe oublié ?</a>
+		</form>
 	</section>
 </main>
 
