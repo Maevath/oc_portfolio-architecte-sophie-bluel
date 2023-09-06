@@ -64,7 +64,3 @@ form.addEventListener("submit", (e) => {
         form.appendChild(pError)
     }
 });
-
-// // //
-// Implémenter le script de la page connexion
-// Afficher le bandeau et les boutons modifier sur la page d'accueil si le token est présent dans le localStorage
