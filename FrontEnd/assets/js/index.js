@@ -20,12 +20,11 @@ if (token) {
 
     myLink.textContent = 'Logout'
     myLink.addEventListener('click', e => {
-        e.preventDefault()
-        localStorage.removeItem('token')
-        localStorage.removeItem('userId')
-        window.location.reload()
+        e.preventDefault() // Empêcher le comportement par défaut du lien
+        localStorage.removeItem('token')   //
+        localStorage.removeItem('userId') // supprime des donner stockés dans le LocalStorage
+        window.location.reload() //Actualise le navigateur
     })
-
     titleProjets.style.marginLeft = '6rem'
 } else {
     // Aucun token n'est stocké dans localStorage
@@ -47,8 +46,8 @@ const modal = document.querySelector('.modal')
 const editButtons = document.querySelectorAll('.edit')
 const galleryShift = document.querySelector('.gallery-shift')
 
-let galleryCreated = false // Suivie créa galerie
-let optionsCreated = false // Suivie créa options
+let galleryCreated = false // Suivie indicateur création galerie
+let optionsCreated = false // Suivie indicateur création options
 //------------------------------------------------------//
 //------------------------------------------------------//
 
@@ -57,95 +56,79 @@ let optionsCreated = false // Suivie créa options
 
 editButtons.forEach(editButton => {
     editButton.addEventListener('click', e => {
-        async function openModalWithGallery() {
-            // Galerie n'a pas encore été créée (modal Galerie photo)
-            if (!galleryCreated) {
-                works.forEach(work => {
-                    // Créer le conteneur d'image
-                    const imageContainer = document.createElement('div');
-                    imageContainer.classList.add('image-container');
+        // Galerie n'a pas encore été créée (modal Galerie photo)
+        if (!galleryCreated) {
+            works.forEach(work => {
+                // Créer le conteneur d'image
+                const imageContainer = document.createElement('div')
+                imageContainer.classList.add('image-container')
 
-                    // Créer l'image
-                    const imgGallery = document.createElement('img');
-                    imgGallery.src = work.imageUrl;
-                    imgGallery.alt = work.title;
-                    imgGallery.setAttribute('data-image-id', work.id); // Stocker l'ID dans l'attribut data-image-id
+                // Créer l'image
+                const imgGallery = document.createElement('img')
+                imgGallery.src = work.imageUrl
+                imgGallery.alt = work.title
+                imgGallery.setAttribute('data-image-id', work.id) // Stocker l'ID dans l'attribut data-image-id
 
-                    // Créer les icônes
-                    const iconContainer = document.createElement('div');
-                    iconContainer.classList.add('icons');
-                    const arrowsIcon = document.createElement('i');
-                    arrowsIcon.classList.add('fas', 'fa-arrows-up-down-left-right');
-                    const trashIcon = document.createElement('i');
-                    trashIcon.classList.add('fas', 'fa-trash-can');
+                // Créer les icônes
+                const iconContainer = document.createElement('div')
+                iconContainer.classList.add('icons')
 
-                    trashIcon.addEventListener('click', async e => {
-                        e.preventDefault(); // Empêcher le comportement par défaut du lien
-                        e.stopPropagation();
-                        const imageId = imgGallery.getAttribute('data-image-id');
-                        imageContainer.style.display = 'none';
+                const arrowsIcon = document.createElement('i')
+                arrowsIcon.classList.add('fas', 'fa-arrows-up-down-left-right')
 
-                        // Supprimer l'élément de l'API
-                        const response = await deleteImage(imageId);
+                const trashIcon = document.createElement('i')
+                trashIcon.classList.add('fas', 'fa-trash-can')
 
-                        if (response && response.ok) {
-                            alert('Image supprimée avec succès !');
-                            fetch('http://localhost:5678/api/works')
-                                .then(response => response.json())
-                                .then(data => {
-                                    works = data;
-                                    createWorks(data); // Appel de la fonction pour créer les éléments de galerie
-                                    modalOverlay.style.display = 'none';
-                                    modal.style.display = 'none';
-                                });
-                        } else {
-                            alert("Erreur lors de la suppression de l'image.");
-                        }
-                    });
+                //////////////// BTN suppr de l'img
+                trashIcon.addEventListener('click', async e => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    const imageId = imgGallery.getAttribute('data-image-id')
+                    imageContainer.style.display = 'none'
 
-                    // Ajout des icônes à leur conteneur
-                    iconContainer.appendChild(arrowsIcon);
-                    iconContainer.appendChild(trashIcon);
+                    // Supprimer l'élément de l'API
+                    const response = await deleteImage(imageId)
 
-                    // Création le bouton "éditer"
-                    const btnEditer = document.createElement('p');
-                    btnEditer.textContent = 'éditer';
+                    if (response && response.ok) {
+                        alert('Image supprimée avec succès !')
+                        fetch('http://localhost:5678/api/works')
+                            .then(response => response.json())
+                            .then(data => {
+                                works = data
+                                createWorks(data) // Appel de la fonction pour créer les éléments de galerie
+                                modalOverlay.style.display = 'none'
+                                modal.style.display = 'none'
+                            })
+                    } else {
+                        alert("Erreur lors de la suppression de l'image.")
+                    }
+                })
 
-                    // Ajout l'image, les icônes et le bouton "éditer" au conteneur d'image
-                    imageContainer.appendChild(imgGallery);
-                    imageContainer.appendChild(iconContainer);
-                    imageContainer.appendChild(btnEditer);
+                // Ajout des icônes à leur conteneur
+                iconContainer.appendChild(arrowsIcon)
+                iconContainer.appendChild(trashIcon)
 
-                    // Ajout du conteneur d'image à la galerie
-                    galleryShift.appendChild(imageContainer);
-                });
+                // Création le bouton "éditer"
+                const btnEditer = document.createElement('p')
+                btnEditer.textContent = 'éditer'
 
-                galleryCreated = true; // Mise à jour de l'indicateur
-            }
+                // Ajout l'image, les icônes et le bouton "éditer" au conteneur d'image
+                imageContainer.appendChild(imgGallery)
+                imageContainer.appendChild(iconContainer)
+                imageContainer.appendChild(btnEditer)
 
-            // Afficher les éléments de la modal
-            modalOverlay.style.display = 'block';
-            modal.style.display = 'block';
-            addGallery.style.display = 'block';
-            addPhoto.style.display = 'none';
+                // Ajout du conteneur d'image à la galerie
+                galleryShift.appendChild(imageContainer)
+            })
 
-            try {
-                const response = await fetch('http://localhost:5678/api/works');
-                if (response.ok) {
-                    const data = await response.json();
-                    works = data;
-                    updateGalleryShift(); // Mettez à jour la galerieShift avec les données récupérées
-                } else {
-                    console.error("Erreur lors de la récupération de la galerie depuis l'API.");
-                }
-            } catch (error) {
-                console.error("Une erreur s'est produite lors de la récupération de la galerie :", error);
-            }
+            galleryCreated = true // Mise à jour de l'indicateur
         }
 
-        editButtons.forEach(editButton => {
-            editButton.addEventListener('click', openModalWithGallery);
-        });
+        // Afficher les éléments de la modal
+        modalOverlay.style.display = 'block'
+        modal.style.display = 'block'
+        addGallery.style.display = 'block'
+        addPhoto.style.display = 'none'
     })
 })
 //------------------------------------------------------//
@@ -159,6 +142,7 @@ const back = document.querySelector('.back')
 const closeButtons = document.querySelectorAll('.close')
 const btnAdd = document.querySelector('.btn-add')
 
+//BTN de pour passer a la 2e modal 
 btnAdd.addEventListener('click', e => {
     e.preventDefault()
     const categoriesSelect = document.getElementById('category')
@@ -188,7 +172,7 @@ const btnFichier = formAdd.querySelector('.button-fichier')
 
 fileInput.addEventListener('change', evt => {
     evt.preventDefault()
-    const [file] = fileInput.files
+    const [file] = fileInput.files //stock le fichier img dans la variable file
     if (file) {
         // Mettez à jour l'image de prévisualisation avec l'image sélectionnée
         const imageUrl = URL.createObjectURL(file)
@@ -198,7 +182,7 @@ fileInput.addEventListener('change', evt => {
     }
 })
 
-// btn close & retour
+/////////// btn close & retour
 closeButtons.forEach(closeButton => {
     closeButton.addEventListener('click', e => {
         e.preventDefault()
@@ -227,13 +211,36 @@ back.addEventListener('click', e => {
 //------------------------------------------------------//
 //------------------------------------------------------//
 
+//-------------------btn de Validation du formulaire---------------------//
+//------------------------------------------------------//
+const btnValid = document.querySelector('.btn-valid');
+const titleInput = formAdd.querySelector('#title');
+
+// Fonction pour vérifier l'état des champs et activer/désactiver le bouton
+function checkFormFields() {
+    const titleValue = titleInput.value;
+    const file = fileInput.files[0];
+
+    // Vérifiez si les deux champs sont remplis
+    if (titleValue.trim() !== '' && file && file.type.startsWith('image/')) {
+        btnValid.style.backgroundColor = '#1D6154'; // Active btn vert
+        btnValid.disabled = false;
+    } else {
+        btnValid.style.backgroundColor = ''; // Réinitialise la couleur
+        btnValid.disabled = true;
+    }
+}
+// Ajout des écouteurs d'événements "input" aux champs
+titleInput.addEventListener('input', checkFormFields);
+fileInput.addEventListener('input', checkFormFields);
+
+
 //////////// Ajout des works -----------------------------//
 //------------------------------------------------------//
-const btnValid = document.querySelector('.btn-valid')
 
 // Ajout de l'écouteur d'événement dans la fonction asynchrone
 btnValid.addEventListener('click', async e => {
-    e.preventDefault() // Empêche le comportement par défaut du bouton
+    e.preventDefault()
 
     const titleInput = formAdd.querySelector('#title')
     const fileInput = formAdd.querySelector('#file')
