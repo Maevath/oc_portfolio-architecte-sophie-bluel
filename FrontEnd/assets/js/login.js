@@ -39,6 +39,7 @@ form.addEventListener("submit", (e) => {
                         pError.innerText = 'Les indentifiant son invalide'
                         pError.classList.add('error')
                         form.appendChild(pError)
+                        throw new Error('Identifiants invalides');
                     }
                 })
                 .then((data) => {

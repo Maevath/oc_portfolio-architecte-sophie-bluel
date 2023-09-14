@@ -56,73 +56,71 @@ let optionsCreated = false // Suivie indicateur création options
 
 editButtons.forEach(editButton => {
     editButton.addEventListener('click', e => {
-        // Galerie n'a pas encore été créée (modal Galerie photo)
-        if (!galleryCreated) {
-            works.forEach(work => {
-                // Créer le conteneur d'image
-                const imageContainer = document.createElement('div')
-                imageContainer.classList.add('image-container')
+        // supprime la galerie et ajoute la galerie
+        galleryShift.innerHTML = ''
+        works.forEach(work => {
+            // Créer le conteneur d'image
+            const imageContainer = document.createElement('div')
+            imageContainer.classList.add('image-container')
 
-                // Créer l'image
-                const imgGallery = document.createElement('img')
-                imgGallery.src = work.imageUrl
-                imgGallery.alt = work.title
-                imgGallery.setAttribute('data-image-id', work.id) // Stocker l'ID dans l'attribut data-image-id
+            // Créer l'image
+            const imgGallery = document.createElement('img')
+            imgGallery.src = work.imageUrl
+            imgGallery.alt = work.title
+            imgGallery.setAttribute('data-image-id', work.id) // Stocker l'ID dans l'attribut data-image-id
 
-                // Créer les icônes
-                const iconContainer = document.createElement('div')
-                iconContainer.classList.add('icons')
+            // Créer les icônes
+            const iconContainer = document.createElement('div')
+            iconContainer.classList.add('icons')
 
-                const arrowsIcon = document.createElement('i')
-                arrowsIcon.classList.add('fas', 'fa-arrows-up-down-left-right')
+            const arrowsIcon = document.createElement('i')
+            arrowsIcon.classList.add('fas', 'fa-arrows-up-down-left-right')
 
-                const trashIcon = document.createElement('i')
-                trashIcon.classList.add('fas', 'fa-trash-can')
+            const trashIcon = document.createElement('i')
+            trashIcon.classList.add('fas', 'fa-trash-can')
 
-                //////////////// BTN suppr de l'img
-                trashIcon.addEventListener('click', async e => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    const imageId = imgGallery.getAttribute('data-image-id')
-                    imageContainer.style.display = 'none'
+            //////////////// BTN suppr de l'img
+            trashIcon.addEventListener('click', async e => {
+                e.preventDefault()
+                e.stopPropagation()
+                const imageId = imgGallery.getAttribute('data-image-id')
+                imageContainer.style.display = 'none'
 
-                    // Supprimer l'élément de l'API
-                    const response = await deleteImage(imageId)
+                // Supprimer l'élément de l'API
+                const response = await deleteImage(imageId)
 
-                    if (response && response.ok) {
-                        alert('Image supprimée avec succès !')
-                        fetch('http://localhost:5678/api/works')
-                            .then(response => response.json())
-                            .then(data => {
-                                works = data
-                                createWorks(data) // Appel de la fonction pour créer les éléments de galerie
-                                modalOverlay.style.display = 'none'
-                                modal.style.display = 'none'
-                            })
-                    } else {
-                        alert("Erreur lors de la suppression de l'image.")
-                    }
-                })
-
-                // Ajout des icônes à leur conteneur
-                iconContainer.appendChild(arrowsIcon)
-                iconContainer.appendChild(trashIcon)
-
-                // Création le bouton "éditer"
-                const btnEditer = document.createElement('p')
-                btnEditer.textContent = 'éditer'
-
-                // Ajout l'image, les icônes et le bouton "éditer" au conteneur d'image
-                imageContainer.appendChild(imgGallery)
-                imageContainer.appendChild(iconContainer)
-                imageContainer.appendChild(btnEditer)
-
-                // Ajout du conteneur d'image à la galerie
-                galleryShift.appendChild(imageContainer)
+                if (response && response.ok) {
+                    alert('Image supprimée avec succès !')
+                    fetch('http://localhost:5678/api/works')
+                        .then(response => response.json())
+                        .then(data => {
+                            works = data
+                            createWorks(data) // Appel de la fonction pour créer les éléments de galerie
+                            modalOverlay.style.display = 'none'
+                            modal.style.display = 'none'
+                        })
+                } else {
+                    alert("Erreur lors de la suppression de l'image.")
+                }
             })
 
-            galleryCreated = true // Mise à jour de l'indicateur
-        }
+            // Ajout des icônes à leur conteneur
+            iconContainer.appendChild(arrowsIcon)
+            iconContainer.appendChild(trashIcon)
+
+            // Création le bouton "éditer"
+            const btnEditer = document.createElement('p')
+            btnEditer.textContent = 'éditer'
+
+            // Ajout l'image, les icônes et le bouton "éditer" au conteneur d'image
+            imageContainer.appendChild(imgGallery)
+            imageContainer.appendChild(iconContainer)
+            imageContainer.appendChild(btnEditer)
+
+            // Ajout du conteneur d'image à la galerie
+            galleryShift.appendChild(imageContainer)
+        })
+
 
         // Afficher les éléments de la modal
         modalOverlay.style.display = 'block'
