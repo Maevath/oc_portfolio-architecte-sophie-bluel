@@ -1,16 +1,17 @@
 ////////////////////// CONNECTION ----------------------//
 //------------------------------------------------------//
+
+// Déclaration des variables pour stocker les travaux et les categories
 let works
 let categories
-const token = localStorage.getItem('token')
+const token = sessionStorage.getItem('token')
 
-// Barre d'éditeur
-const editingElements = document.querySelectorAll('.editing')
-const editElements = document.querySelectorAll('.edit')
+const editingElements = document.querySelectorAll('.editing')// Barre de l'éditeur
+const editElements = document.querySelectorAll('.edit')// btn modifié
 const titleProjets = document.querySelector('.title-projets')
 
 if (token) {
-    // Token est stocké dans localStorage
+    // Token est stocké dans sessionStorage
     editingElements.forEach(element => {
         element.style.display = 'block'
     })
@@ -18,11 +19,11 @@ if (token) {
         element.style.display = 'block'
     })
 
-    myLink.textContent = 'Logout'
+    myLink.textContent = 'Logout' // Modifie le texte du lien
     myLink.addEventListener('click', e => {
-        e.preventDefault() // Empêcher le comportement par défaut du lien
-        localStorage.removeItem('token')   //
-        localStorage.removeItem('userId') // supprime des donner stockés dans le LocalStorage
+        e.preventDefault() // Empêche le comportement par défaut du lien
+        sessionStorage.removeItem('token')   //
+        sessionStorage.removeItem('userId') // supprime des donner stockés dans le sessionStorage
         window.location.reload() //Actualise le navigateur
     })
     titleProjets.style.marginLeft = '6rem'
@@ -34,7 +35,7 @@ if (token) {
     editElements.forEach(element => {
         element.style.display = 'none'
     })
-    myLink.textContent = 'Login'
+    myLink.textContent = 'Login' // Modifier le texte du lien
 }
 //------------------------------------------------------//
 //------------------------------------------------------//
@@ -59,17 +60,17 @@ editButtons.forEach(editButton => {
         // supprime la galerie et ajoute la galerie
         galleryShift.innerHTML = ''
         works.forEach(work => {
-            // Créer le conteneur d'image
+            // Création du conteneur d'image
             const imageContainer = document.createElement('div')
             imageContainer.classList.add('image-container')
 
-            // Créer l'image
+            // Création des images
             const imgGallery = document.createElement('img')
             imgGallery.src = work.imageUrl
             imgGallery.alt = work.title
             imgGallery.setAttribute('data-image-id', work.id) // Stocker l'ID dans l'attribut data-image-id
 
-            // Créer les icônes
+            // Création des icônes
             const iconContainer = document.createElement('div')
             iconContainer.classList.add('icons')
 
@@ -79,14 +80,14 @@ editButtons.forEach(editButton => {
             const trashIcon = document.createElement('i')
             trashIcon.classList.add('fas', 'fa-trash-can')
 
-            //////////////// BTN suppr de l'img
+            //////////////// BTN suppr. de l'img
             trashIcon.addEventListener('click', async e => {
                 e.preventDefault()
                 e.stopPropagation()
                 const imageId = imgGallery.getAttribute('data-image-id')
                 imageContainer.style.display = 'none'
 
-                // Supprimer l'élément de l'API
+                // Requet pour suppr. img fonction deleteImage l.428
                 const response = await deleteImage(imageId)
 
                 if (response && response.ok) {
@@ -108,7 +109,7 @@ editButtons.forEach(editButton => {
             iconContainer.appendChild(arrowsIcon)
             iconContainer.appendChild(trashIcon)
 
-            // Création le bouton "éditer"
+            // Création le bouton "éditer" 
             const btnEditer = document.createElement('p')
             btnEditer.textContent = 'éditer'
 
@@ -122,7 +123,7 @@ editButtons.forEach(editButton => {
         })
 
 
-        // Afficher les éléments de la modal
+        // Affiche les éléments de la modal 1
         modalOverlay.style.display = 'block'
         modal.style.display = 'block'
         addGallery.style.display = 'block'
@@ -154,7 +155,7 @@ btnAdd.addEventListener('click', e => {
                     categoriesSelect.appendChild(selectOption)
                 }
             })
-            optionsCreated = true // Mise à jour de l'indicateur
+            optionsCreated = true // MàJ de l'indicateur
         }
         modalOverlay.style.display = 'block'
         modal.style.display = 'block'
@@ -253,7 +254,7 @@ btnValid.addEventListener('click', async e => {
         alert('Veuillez remplir tous les champs correctement.')
     }
 
-    // Créer un nouvel objet pour l'image
+    // Création un nouvel objet pour l'image
     const newImage = {
         title: titleValue,
         imageUrl: URL.createObjectURL(file)
@@ -270,7 +271,7 @@ btnValid.addEventListener('click', async e => {
         const response = await fetch('http://localhost:5678/api/works', {
             method: 'POST',
             headers: {
-                Authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`// le token, permet d'authentifier la requête.
             },
             body: formData
         })
@@ -283,7 +284,7 @@ btnValid.addEventListener('click', async e => {
             previewImage.style.display = 'none'
             btnFichier.style.display = 'block'
 
-            fetch('http://localhost:5678/api/works')
+            fetch('http://localhost:5678/api/works')// GET MàJ img
                 .then(response => response.json())
                 .then(data => {
                     works = data
@@ -424,7 +425,7 @@ function createCategories(categories) {
 //------------------------------------------------------//
 //------------------------------------------------------//
 
-// Fonction pour supprimer une image de la galerie
+// Fonction pour supprimer une image de la galerie l.84
 const deleteImage = async id => {
     try {
         const response = await fetch(`http://localhost:5678/api/works/${id}`, {

@@ -18,11 +18,10 @@
 	<script src="./assets/js/index.js" defer></script>   
 </head>
 
-
-
 <body>
+	<!-- Barre de l'éditeur -->
 	<section class="editing">
-		<div class="editing-container">
+		<div class="ing-container">
 			<i class="fa-regular fa-pen-to-square"></i>
 			<p class="editing-p">Mode édition</p>
 			<button class="btn-change">publier les changements</button>
@@ -81,17 +80,17 @@
 				</form>
 			</section>
 
+<!-- Creation de la modale -->
 			<section class="modal-opacite"></section>
 			<section class="modal">
-				<div class="add-gallery">
+				<div class="add-gallery"><!-- Modale de la galerie -->
 					<div class="btn-i">
 						<a class="close" href="#" title="Fermer"><i class="fa-solid fa-xmark"></i></a>
 					</div>
 					<h4 class="title">Galerie photo</h4>
-					<div class="modal-gallery">
-						<div class="gallery-shift">
 
-						</div>
+					<div class="modal-gallery">
+						<div class="gallery-shift"></div>
 						<div class="btn-line">
 							<input class="btn-add" type="submit" value="Ajouter une photo">
 							<p class="suppr-gallery">Supprimer la galerie</p>
@@ -99,12 +98,13 @@
 					</div>
 				</div>
 
-				<div class="add-photo">
+				<div class="add-photo"><!-- Modale du formaulaire -->
 					<div class="btn-i">
 						<a class="back" href="#" title="Retour"><i class="fa-solid fa-arrow-left"></i></a>
 						<a class="close" href="#" title="Fermer"><i class="fa-solid fa-xmark"></i></a>
 					</div>
 					<h4 class="title">Ajout photo</h4>
+<!-- Formulaire de l'ajout du work -->
 					<form class="form-add" method="post" id="formAdd">
 						<div class="container-fichier">
 							<img src="./assets/images/svg/picture-svgrepo-com (2).svg" class="svg" alt="Icône image">
@@ -117,18 +117,13 @@
 						<input type="text" name="title" class="option" id="title">
 						<label for="category" class="label-option">Catégorie</label>
 						<select name="category" class="option option-category" id="category">
-							
 						</select>
 						<div class="btn-line">
 							<input class="btn-valid" type="submit" value="Valider">
 						</div>
-						
 					</form>
 				</div>
 			</section>
-
-			
-
 		</main>
 
 		<footer>
