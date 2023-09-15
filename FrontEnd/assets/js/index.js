@@ -87,7 +87,7 @@ editButtons.forEach(editButton => {
                 const imageId = imgGallery.getAttribute('data-image-id')
                 imageContainer.style.display = 'none'
 
-                // Requet pour suppr. img fonction deleteImage l.428
+                // Requet pour suppr. img fonction deleteImage 
                 const response = await deleteImage(imageId)
 
                 if (response && response.ok) {
@@ -199,6 +199,11 @@ closeButtons.forEach(closeButton => {
 back.addEventListener('click', e => {
     e.preventDefault()
     // Réinitialise le formulaire en utilisant la méthode reset()
+
+    // Réinitialise la couleur et l'état du bouton "Valider"
+    btnValid.style.backgroundColor = '';
+    btnValid.disabled = false;
+
     formAdd.reset()
     // Réinitialise la prévisualisation de l'image
     previewImage.style.display = 'none'
@@ -215,20 +220,21 @@ back.addEventListener('click', e => {
 const btnValid = document.querySelector('.btn-valid');
 const titleInput = formAdd.querySelector('#title');
 
-// Fonction pour vérifier l'état des champs et activer/désactiver le bouton
 function checkFormFields() {
     const titleValue = titleInput.value;
     const file = fileInput.files[0];
+
+    // Réinitialisez la couleur et l'état du bouton
+    btnValid.style.backgroundColor = '';
+    btnValid.disabled = false;
 
     // Vérifiez si les deux champs sont remplis
     if (titleValue.trim() !== '' && file && file.type.startsWith('image/')) {
         btnValid.style.backgroundColor = '#1D6154'; // Active btn vert
         btnValid.disabled = false;
-    } else {
-        btnValid.style.backgroundColor = ''; // Réinitialise la couleur
-        btnValid.disabled = true;
     }
 }
+
 // Ajout des écouteurs d'événements "input" aux champs
 titleInput.addEventListener('input', checkFormFields);
 fileInput.addEventListener('input', checkFormFields);
@@ -278,8 +284,11 @@ btnValid.addEventListener('click', async e => {
 
         if (response.ok) {
             alert('Image envoyée avec succès !')
-            // Réinitialisation du formulaire
-
+            // Réinitialise la couleur et l'état du bouton "Valider"
+            btnValid.style.backgroundColor = '';
+            btnValid.disabled = false;
+            // Réinitialisez le formulaire
+            formAdd.reset();
             // Réinitialisation de la prévisualisation de l'image
             previewImage.style.display = 'none'
             btnFichier.style.display = 'block'
@@ -425,7 +434,7 @@ function createCategories(categories) {
 //------------------------------------------------------//
 //------------------------------------------------------//
 
-// Fonction pour supprimer une image de la galerie l.84
+// Fonction pour supprimer une image de la galerie
 const deleteImage = async id => {
     try {
         const response = await fetch(`http://localhost:5678/api/works/${id}`, {
