@@ -57,7 +57,7 @@ form.addEventListener("submit", (e) => {
         .then((data) => {
             if (data) {
                 sessionStorage.setItem("token", data.token);
-                // Redirigez l'utilisateur
+                // Redirige l'utilisateur sur la home page
                 window.location.href = "index.html";
             }
         })
