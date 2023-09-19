@@ -9,7 +9,8 @@ const token = sessionStorage.getItem('token')
 const editingElements = document.querySelectorAll('.editing')// Barre de l'éditeur
 const editElements = document.querySelectorAll('.edit')// btn modifié
 const titleProjets = document.querySelector('.title-projets')
-
+const categoriesContainer = document.querySelector('.categories')
+const titleheader = document.querySelector('.title-header')
 if (token) {
     // Token est stocké dans sessionStorage
     editingElements.forEach(element => {
@@ -27,6 +28,11 @@ if (token) {
         window.location.reload() //Actualise le navigateur
     })
     titleProjets.style.marginLeft = '6rem'
+    titleheader.style.marginBottom = '2rem'
+
+    categoriesContainer.style.display = 'none'
+
+
 } else {
     // Aucun token n'est stocké dans localStorage
     editingElements.forEach(element => {
@@ -97,8 +103,6 @@ editButtons.forEach(editButton => {
                         .then(data => {
                             works = data
                             createWorks(data) // Appel de la fonction pour créer les éléments de galerie
-                            modalOverlay.style.display = 'none'
-                            modal.style.display = 'none'
                         })
                 } else {
                     alert("Erreur lors de la suppression de l'image.")
@@ -128,6 +132,8 @@ editButtons.forEach(editButton => {
         modal.style.display = 'block'
         addGallery.style.display = 'block'
         addPhoto.style.display = 'none'
+
+
     })
 })
 //------------------------------------------------------//
@@ -145,6 +151,7 @@ const btnAdd = document.querySelector('.btn-add')
 btnAdd.addEventListener('click', e => {
     e.preventDefault()
     const categoriesSelect = document.getElementById('category')
+    // récupère l'élément HTML avec l'identifiant 'category' (l'input déroulant).
     categories.forEach(category => {
         if (!optionsCreated) {
             categories.forEach(category => {
@@ -198,12 +205,11 @@ closeButtons.forEach(closeButton => {
 
 back.addEventListener('click', e => {
     e.preventDefault()
-    // Réinitialise le formulaire en utilisant la méthode reset()
 
     // Réinitialise la couleur et l'état du bouton "Valider"
     btnValid.style.backgroundColor = '';
     btnValid.disabled = false;
-
+    // Réinitialise le formulaire en utilisant la méthode reset()
     formAdd.reset()
     // Réinitialise la prévisualisation de l'image
     previewImage.style.display = 'none'
@@ -221,8 +227,8 @@ const btnValid = document.querySelector('.btn-valid');
 const titleInput = formAdd.querySelector('#title');
 
 function checkFormFields() {
-    const titleValue = titleInput.value;
-    const file = fileInput.files[0];
+    const titleValue = titleInput.value;// Récupére les champs, stocke dans une variable
+    const file = fileInput.files[0]; //  Récupère le fichier sélectionné
 
     // Réinitialisez la couleur et l'état du bouton
     btnValid.style.backgroundColor = '';
@@ -316,7 +322,6 @@ btnValid.addEventListener('click', async e => {
 ////////////////////// Galerie & Categories ------------//
 //------------------------------------------------------//
 const galleryContainer = document.querySelector('.gallery')
-const categoriesContainer = document.querySelector('.categories')
 
 // Requête à l'API works
 fetch('http://localhost:5678/api/works')
@@ -326,6 +331,9 @@ fetch('http://localhost:5678/api/works')
         createWorks(data) // Appel de la fonction pour créer les éléments de galerie
         console.log(data)
     })
+    .catch(error => {
+        console.error('Une erreur s\'est produite lors de la récupération des travaux :', error);
+    });
 
 function createWorks(works) {
     galleryContainer.innerHTML = ''
@@ -360,6 +368,9 @@ fetch('http://localhost:5678/api/categories')
         categories = data
         createCategories(data)
     })
+    .catch(error => {
+        console.error('Une erreur s\'est produite lors de la récupération des catégories :', error);
+    });
 
 function createCategories(categories) {
     categories.unshift({ name: 'Tous' })

@@ -264,11 +264,13 @@ footer nav ul {
 	display: flex;
 	justify-content: center;
 	border-radius: 40px;
-	margin: 0.5rem;
+	margin: 4rem 0;
 	padding: 0.5rem;
-	background: #B1663C;
+	/* background: #B1663C; */
 	text-align: center;
-	font-weight: 500;
+	font-weight: 900;
+	color: #B1663C;
+	font-size: 1.4rem;
 }
 
 /*Mode editing */
