@@ -6,7 +6,7 @@ let errorDisplay = null;  // Variable pour stocker l'affichage de l'erreur
 
 // Fonction pour afficher le message d'erreur
 function displayError(errorMessage) {
-    // Supprimer le message d'erreur précédent s'il existe
+    // Supprime le message d'erreur précédent s'il existe
     if (errorDisplay) {
         errorDisplay.remove();
         errorDisplay = null;
@@ -53,7 +53,7 @@ form.addEventListener("submit", (e) => {
             }
         })
 
-        // Si des données sont renvoyées, stockez le token dans sessionStorage
+        // Si des données sont renvoyées, stocke le token dans sessionStorage
         .then((data) => {
             if (data) {
                 sessionStorage.setItem("token", data.token);

@@ -250,71 +250,72 @@ fileInput.addEventListener('input', checkFormFields);
 //------------------------------------------------------//
 
 // Ajout de l'écouteur d'événement dans la fonction asynchrone
-btnValid.addEventListener('click', async e => {
-    e.preventDefault()
+btnValid.addEventListener('click', async (e) => {
+    e.preventDefault();
 
-    const titleInput = formAdd.querySelector('#title')
-    const fileInput = formAdd.querySelector('#file')
+    const titleInput = formAdd.querySelector('#title');
+    const fileInput = formAdd.querySelector('#file');
 
-    const categorySelect = document.getElementById('category')
-    const categoryId = categorySelect.value
+    const categorySelect = document.getElementById('category');
+    const categoryId = categorySelect.value;
 
-    const titleValue = titleInput.value
-    const file = fileInput.files[0]
+    const titleValue = titleInput.value;
+    const file = fileInput.files[0];
 
     if (titleValue.trim() === '' || !file || !file.type.startsWith('image/')) {
-        alert('Veuillez remplir tous les champs correctement.')
-    }
+        alert('Veuillez remplir tous les champs correctement.');
+    } else {
+        // Création d'un nouvel objet pour l'image
+        const newImage = {
+            title: titleValue,
+            imageUrl: URL.createObjectURL(file)
+        };
 
-    // Création un nouvel objet pour l'image
-    const newImage = {
-        title: titleValue,
-        imageUrl: URL.createObjectURL(file)
-    }
+        // Construction de FormData
+        const formData = new FormData();
+        formData.append('title', newImage.title);
+        formData.append('category', categoryId);
+        formData.append('image', file);
 
-    // Construction de FormData
-    const formData = new FormData()
-    formData.append('title', newImage.title)
-    formData.append('category', categoryId)
-    formData.append('image', file)
+        // Envoyer la requête à l'API
+        try {
+            const response = await fetch('http://localhost:5678/api/works', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+                body: formData
+            });
 
-    // Envoyer la requête à l'API
-    try {
-        const response = await fetch('http://localhost:5678/api/works', {
-            method: 'POST',
-            headers: {
-                Authorization: `Bearer ${token}`// le token, permet d'authentifier la requête.
-            },
-            body: formData
-        })
+            if (response.ok) {
+                alert('Image envoyée avec succès !');
 
-        if (response.ok) {
-            alert('Image envoyée avec succès !')
-            // Réinitialise la couleur et l'état du bouton "Valider"
-            btnValid.style.backgroundColor = '';
-            btnValid.disabled = false;
-            // Réinitialisez le formulaire
-            formAdd.reset();
-            // Réinitialisation de la prévisualisation de l'image
-            previewImage.style.display = 'none'
-            btnFichier.style.display = 'block'
+                btnValid.style.backgroundColor = '';
+                btnValid.disabled = false;
 
-            fetch('http://localhost:5678/api/works')// GET MàJ img
-                .then(response => response.json())
-                .then(data => {
-                    works = data
-                    createWorks(data) // Appel de la fonction pour créer les éléments de galerie
-                    modalOverlay.style.display = 'none'
-                    modal.style.display = 'none'
-                })
-        } else {
-            alert("Erreur lors de l'envoi de l'image à l'API.")
+                formAdd.reset();
+
+                previewImage.style.display = 'none';
+                btnFichier.style.display = 'block';
+
+                fetch('http://localhost:5678/api/works') // GET MàJ img
+                    .then(response => response.json())
+                    .then(data => {
+                        works = data;
+                        createWorks(data);
+                        modalOverlay.style.display = 'none';
+                        modal.style.display = 'none';
+                    });
+            } else {
+                alert("Erreur lors de l'envoi de l'image à l'API.");
+            }
+        } catch (error) {
+            console.error("Une erreur s'est produite :", error);
+            alert("Une erreur s'est produite lors de l'envoi de l'image.");
         }
-    } catch (error) {
-        console.error("Une erreur s'est produite :", error)
-        alert("Une erreur s'est produite lors de l'envoi de l'image.")
     }
-})
+});
+
 
 //------------------------------------------------------//
 //------------------------------------------------------//
