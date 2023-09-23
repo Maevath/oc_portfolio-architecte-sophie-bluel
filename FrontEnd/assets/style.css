@@ -51,18 +51,24 @@ table {
 }
 /** end reset css**/
 body {
-	max-width: 1140px;
-	margin:auto;
+	
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
 header {
+	max-width: 1140px;
+	margin: 50px auto;
 	display: flex;
 	justify-content: space-between;
-	margin: 50px 0
+	
+}
+
+main{
+	max-width: 923px;
+	margin:auto;
 }
 section {
-	margin: 50px 0
+	margin: 5rem 0
 }
 
 h1{
@@ -118,12 +124,8 @@ nav li a {
 }
 #introduction img {
 	display: block;
-	margin: 0 3.5rem 1rem;
+	margin: 0 3.5rem 1rem 0;
 	width: 80%;
-}
-
-#introduction a {
-	margin-left: 3.5rem;
 }
 
 #introduction article {
@@ -136,11 +138,11 @@ nav li a {
 #introduction p {
 	margin-bottom: 0.5em;
 }
-#portfolio header{
+.title-header{
 	justify-content: center;
 	align-items: center;
 	gap: 1.5rem;
-	margin-bottom: 1em;
+	margin-bottom: 4rem;
 }
 
 #portfolio h2 {
@@ -168,7 +170,8 @@ nav li a {
 	cursor: pointer;
 }
 
-.categorie-btn:hover {
+.categorie-btn:hover,
+.categorie-btn.active {
 	background-color: #1D6154;
 	color: #ffffff;
   }
@@ -181,13 +184,13 @@ nav li a {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
-	grid-row-gap: 3rem;
-	grid-template-rows: 500px;
+	grid-row-gap: 1.5rem;
+	grid-template-rows: 416px;
 }
 
 .gallery img {
 	width: 100%;
-    max-height: 490px;
+    max-height: 392px;
     object-fit: cover;
 	margin-bottom: 0.3rem;
 }
@@ -255,9 +258,11 @@ input[type="submit"]{
 }
 
 footer nav ul {
+	max-width: 1140px;
+	margin:2rem auto;
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	
 }
 
 .error {
@@ -345,18 +350,18 @@ footer nav ul {
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 10px;
-
+	margin: 0.5rem 0;
 	.title {
 		font-size: 1.5rem;
 		text-align: center;
-		margin-bottom: 2rem;
+		margin: 1rem;
 	}
 
 	.btn-i{
 		display: flex;
     	justify-content: space-between;
 		font-size: 1.5rem;
-		margin: 1rem;
+		margin: 1rem 1rem 0;
 	}
 
 	.btn-line{
@@ -381,7 +386,7 @@ footer nav ul {
 		flex-direction: column;
 		justify-content: center;
 		text-align: center;
-		margin: 10%;
+		margin: 1.5rem 3rem  ;
 		
 		.btn-add{
 			width: 237px;
@@ -401,13 +406,16 @@ footer nav ul {
 			display: grid;
 			grid-template-columns: repeat(5,1fr);
 			grid-gap: 0.5rem;
+			overflow-y: auto;
+			max-height: 32rem;
+			padding: 1rem;
 		}
 
 		.gallery-shift img {
-			max-width: 100%; /* Empêche les images de dépasser la largeur de leur conteneur */
-			max-height: 100%; /* Empêche les images de dépasser la hauteur de leur conteneur */
-			width: auto; /* Ajuste la largeur en fonction de la hauteur tout en maintenant le ratio d'aspect */
-			height: auto; /* Ajuste la hauteur en fonction de la largeur tout en maintenant le ratio d'aspect */
+			max-width: 100%; 
+			max-height: 100%; 
+			width: auto; 
+			height: 135px;
 		}
 		
 		.image-container p{
@@ -548,3 +556,18 @@ footer nav ul {
 
 	
 }
+
+/* CSS pour l'effet de clignotement */
+@keyframes blink {
+	0%, 100% {
+	  opacity: 0;
+	}
+	50% {
+	  opacity: 1;
+	}
+  }
+  
+  /* Applique l'effet de clignotement à l'élément */
+  .error-blink {
+	animation: blink 0.6s infinite;
+  }
