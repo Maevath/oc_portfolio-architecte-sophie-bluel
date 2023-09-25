@@ -275,7 +275,7 @@ footer nav ul {
 	text-align: center;
 	font-weight: 900;
 	color: #B1663C;
-	font-size: 1.4rem;
+	font-size: 1.2rem;
 }
 
 /*Mode editing */
@@ -552,9 +552,6 @@ footer nav ul {
 		object-fit: contain; 
 		
 	}
-	
-
-	
 }
 
 /* CSS pour l'effet de clignotement */

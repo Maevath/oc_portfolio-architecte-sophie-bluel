@@ -24,7 +24,7 @@ function displayError(errorMessage) {
     form.appendChild(pError)
   }
 
-  // Retire la classe après un certain temps (par exemple, 3 secondes)
+  // Retire la classe après un certain temps (par exemple, 1.5 secondes)
   setTimeout(() => {
     pError.classList.remove('error-blink');
   }, 1500);
@@ -42,18 +42,16 @@ form.addEventListener('submit', e => {
 
   // Validation des données soumises (non vides)
   if (formData.email === '' || formData.password === '') {// Affichage d'une erreur : champs vides
-
     displayError('⚠ Veuillez saisir correctement les identifiants')
-  } else { // Validation des données soumises (email valide)
 
+  } else { // Validation des données soumises (email valide)
     var emailRegExp =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
     if (!emailRegExp.test(formData.email)) { // Affichage d'une erreur : email invalide
-
       displayError('⚠ Veuillez saisir une adresse e-mail valide')
-    } else { // Envoi de la requête de connexion
 
+    } else { // Envoi de la requête de connexion
       fetch('http://localhost:5678/api/users/login', {
         method: 'POST',
         headers: {
@@ -80,6 +78,7 @@ form.addEventListener('submit', e => {
             }
           }
         })
+
         .then(data => {
           console.log(data)
 

@@ -13,9 +13,9 @@ const token = localStorage.getItem('token')// stock le token d'authentification 
 const galleryContainer = document.querySelector('.gallery') // Galerie home page
 const categoriesContainer = document.querySelector('.categories')
 
-/////// Affichage du bandeau d'en-tête :
+/////// Affichage éditeur:
 const editingElements = document.querySelectorAll('.editing') // Barre de l'éditeur
-const editElements = document.querySelectorAll('.edit') // btn "modifié"
+const editButtons = document.querySelectorAll('.edit') // btn "modifié"
 
 /////// Header section projet :
 const titleHeader = document.querySelector('.title-header')
@@ -28,7 +28,6 @@ const back = document.querySelector('.back')
 const closeButtons = document.querySelectorAll('.close')
 
 /////// Gestion de la galerie :
-const editButtons = document.querySelectorAll('.edit')
 const galleryShift = document.querySelector('.gallery-shift')// Galerie modale
 
 /////// Ajout d'un Travail : 
@@ -280,7 +279,7 @@ const resetFormAndPreview = () => {// Fonction pour réinitialiser le formulaire
 
 ///// Gestion de l'Affichage en Fonction de l'Authentification :
 if (token) { // Token est stocké dans localStorage
-  [...editingElements, ...editElements].forEach(element => {
+  [...editingElements, ...editButtons].forEach(element => {
     element.style.display = 'block';
   });
   myLink.textContent = 'Logout' // Modifie le texte du lien
@@ -299,7 +298,7 @@ if (token) { // Token est stocké dans localStorage
   categoriesContainer.style.display = 'none'
 
 } else { // Aucun token n'est stocké dans localStorage
-  [...editingElements, ...editElements].forEach(element => {
+  [...editingElements, ...editButtons].forEach(element => {
     element.style.display = 'none';
   });
   myLink.textContent = 'Login' // Modifie le texte du lien
